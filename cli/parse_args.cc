@@ -385,6 +385,27 @@ Arguments parseArguments(int argc, char* argv[])
 
 					parserState = PARSING_LOAD_2_FILES_1;
 				}
+                else if (currentArg == "incl2")
+				{
+					args.command   = COMMAND_INCLUSION2;
+					args.operands  = 2;
+
+					parserState = PARSING_LOAD_2_FILES_1;
+				}
+                else if (currentArg == "incl3")
+				{
+					args.command   = COMMAND_INCLUSION3;
+					args.operands  = 2;
+
+					parserState = PARSING_LOAD_2_FILES_1;
+				}
+                else if (currentArg == "incl4")
+				{
+					args.command   = COMMAND_INCLUSION4;
+					args.operands  = 2;
+
+					parserState = PARSING_LOAD_2_FILES_1;
+				}
 				else if (currentArg == "equiv")
 				{
 					args.command   = COMMAND_EQUIV;

@@ -179,20 +179,34 @@ int performOperation(
 
 	if (args.operands >= 1)
 	{
-		autInput1.LoadFromString(
-			parser,
-			VATA::Util::ReadFile(args.fileName1),
-			stateDict1,
-			params);
+        if (args.command == COMMAND_INCLUSION2 || args.command == COMMAND_INCLUSION4)
+            autInput1.LoadFromString(
+                parser,
+                args.fileName1,
+                stateDict1,
+                params);
+        else
+            autInput1.LoadFromString(
+                parser,
+                VATA::Util::ReadFile(args.fileName1),
+                stateDict1,
+                params);
 	}
 
 	if (args.operands >= 2)
 	{
-		autInput2.LoadFromString(
-			parser,
-			VATA::Util::ReadFile(args.fileName2),
-			stateDict2,
-			params);
+		if (args.command == COMMAND_INCLUSION3 || args.command == COMMAND_INCLUSION4)
+            autInput2.LoadFromString(
+                parser,
+                args.fileName2,
+                stateDict2,
+                params);
+        else
+            autInput2.LoadFromString(
+                parser,
+                VATA::Util::ReadFile(args.fileName2),
+                stateDict2,
+                params);
 	}
 
 	if ((args.command == COMMAND_LOAD) ||
@@ -256,7 +270,7 @@ int performOperation(
 	{
 		autResult = Aut::Intersection(autInput1, autInput2, &prodTranslMap);
 	}
-	else if (args.command == COMMAND_INCLUSION)
+	else if (args.command == COMMAND_INCLUSION || args.command == COMMAND_INCLUSION2 || args.command == COMMAND_INCLUSION3 || args.command == COMMAND_INCLUSION4)
 	{
 		boolResult = CheckInclusion(autInput1, autInput2, args);
 	}
@@ -322,7 +336,7 @@ int performOperation(
 		{
 			std::cout << autResult.DumpToString(serializer, stateDict1);
 		}
-		if ((args.command == COMMAND_INCLUSION) || (args.command == COMMAND_EQUIV))
+		if ((args.command == COMMAND_INCLUSION) || (args.command == COMMAND_INCLUSION2) || (args.command == COMMAND_INCLUSION3) || (args.command == COMMAND_INCLUSION4) || (args.command == COMMAND_EQUIV))
 		{
 			std::cout << boolResult << "\n";
 		}
