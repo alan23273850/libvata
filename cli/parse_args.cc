@@ -11,6 +11,7 @@
 // VATA headers
 #include <vata/vata.hh>
 #include <vata/util/convert.hh>
+#include <cstring>
 
 // local headers
 #include "parse_args.hh"
@@ -425,12 +426,36 @@ Arguments parseArguments(int argc, char* argv[])
 			}
 			else if (parserState == PARSING_LOAD_2_FILES_1)
 			{
-				args.fileName1 = currentArg;
-				parserState = PARSING_LOAD_2_FILES_2;
+                args.fileName1 = currentArg;
+                if (args.command == COMMAND_INCLUSION2 || args.command == COMMAND_INCLUSION4) {
+                    while (argc > 1) { // if there are remaining arguments
+                        if (strlen(argv[1]) >= 3 && argv[1][0]=='O' && argv[1][1]=='p' && argv[1][2]=='s')
+                            break; // do not concatenate the upcoming automaton
+                        else { // concatenate the remaining parts
+                            args.fileName1 += std::string(argv[1]);
+                            --argc;
+		                    ++argv;
+                        }
+                    }
+                    // std::cout << "args.fileName1: " << args.fileName1 << std::endl;
+                }
+                parserState = PARSING_LOAD_2_FILES_2;
 			}
 			else if (parserState == PARSING_LOAD_2_FILES_2)
 			{
 				args.fileName2 = currentArg;
+                if (args.command == COMMAND_INCLUSION3 || args.command == COMMAND_INCLUSION4) {
+                    while (argc > 1) { // if there are remaining arguments
+                        if (strlen(argv[1]) >= 3 && argv[1][0]=='O' && argv[1][1]=='p' && argv[1][2]=='s')
+                            break; // do not concatenate the upcoming automaton
+                        else { // concatenate the remaining parts
+                            args.fileName2 += std::string(argv[1]);
+                            --argc;
+		                    ++argv;
+                        }
+                    }
+                    // std::cout << "args.fileName2: " << args.fileName2 << std::endl;
+                }
 				parserState = PARSING_END;
 			}
 			else
